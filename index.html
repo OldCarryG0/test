@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lemonie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow: hidden;
+      height: 100vh;
+      background-image: url('https://github.com/OldCarryG0/test/blob/main/background.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    .rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .drop {
+      position: absolute;
+      top: -10%;
+      width: 15px;
+      height: 15px;
+      background: radial-gradient(circle, #8b0000 0%, #5a0000 70%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: bloodFall 3s linear infinite;
+      filter: blur(1px);
+    }
+
+    @keyframes bloodFall {
+      0% { transform: translateY(0) scale(1); opacity: 0.9; }
+      50% { opacity: 1; }
+      100% { transform: translateY(100vh) scale(0.7); opacity: 0; }
+    }
+
+    .drop:nth-child(1) { left: 5%; animation-delay: 0s; }
+    .drop:nth-child(2) { left: 15%; animation-delay: 0.5s; transform: scale(1.2); }
+    .drop:nth-child(3) { left: 25%; animation-delay: 1s; transform: scale(0.8); }
+    .drop:nth-child(4) { left: 35%; animation-delay: 1.5s; }
+    .drop:nth-child(5) { left: 45%; animation-delay: 2s; transform: scale(1.5); }
+    .drop:nth-child(6) { left: 55%; animation-delay: 2.5s; transform: scale(0.9); }
+    .drop:nth-child(7) { left: 65%; animation-delay: 1.2s; }
+    .drop:nth-child(8) { left: 75%; animation-delay: 0.8s; transform: scale(1.1); }
+    .drop:nth-child(9) { left: 85%; animation-delay: 1.8s; transform: scale(1.3); }
+    .drop:nth-child(10){ left: 95%; animation-delay: 0.3s; }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .name {
+      font-size: 50px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+
+    .baka-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 60px;
+      color: #ff004f;
+      animation: bakaTextAnimation 2s infinite;
+    }
+
+    @keyframes bakaTextAnimation {
+      0% { transform: scale(1); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .icon-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .icon-container div {
+      text-align: center;
+    }
+
+    .icon-container a {
+      text-decoration: none;
+      color: white;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .icon-container a:hover {
+      transform: scale(1.2);
+      color: #ffcc00;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-icon:hover {
+      transform: rotate(360deg);
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    #playButton {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #ff004f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    #playButton:hover {
+      background-color: #ffcc00;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeOut 2s forwards;
+    }
+
+    .loader .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #ff004f;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="rain">
+    <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+    <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+    <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+    <div class="drop"></div>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="https://raw.githubusercontent.com/OldCarryG0/oldcarryg/main/Teeth.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="container">
+    <img class="profile-pic" src="https://github.com/OldCarryG0/test/blob/main/pfp.jpg" alt="Lemonie Profile Picture"/>
+    <div class="name">Lemonie</div>
+    <div class="baka-text">Gamer</div>
+
+    <button id="playButton">Play Music</button>
+
+    <div class="icon-container">
+      <div>
+        <a href="https://www.instagram.com/lemonie_11__" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="social-icon" alt="Instagram"/>
+          <div>Instagram</div>
+        </a>
+      </div>
+      <div>
+        <a href="https://www.youtube.com/@Lemonie_YT" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" class="social-icon" alt="YouTube"/>
+          <div>YouTube</div>
+        </a>
+      </div>
+      <div>
+        <a href="https://discord.gg/4jgVgsSUps" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="social-icon" alt="Discord"/>
+          <div>Discord</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2025 Lemonie. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    const playButton = document.getElementById('playButton');
+    const bgMusic = document.getElementById('bg-music');
+
+    playButton.addEventListener('click', function () {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        playButton.textContent = "Pause Music";
+      } else {
+        bgMusic.pause();
+        playButton.textContent = "Play Music";
+      }
+    });
+
+    window.onload = function () {
+      const loader = document.querySelector('.loader');
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 2000);
+    };
+  </script>
+</body>
+</html>
